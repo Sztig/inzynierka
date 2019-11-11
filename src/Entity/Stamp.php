@@ -59,7 +59,7 @@ class Stamp
     private $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stamp")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stamps")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -203,7 +203,7 @@ class Stamp
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {

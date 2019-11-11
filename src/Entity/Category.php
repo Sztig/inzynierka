@@ -38,4 +38,44 @@ class Category
      * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="category")
      */
     private $stamp;
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStamp()
+    {
+        return $this->stamp;
+    }
+
+    /**
+     * @param mixed $stamp
+     */
+    public function setStamp($stamp): void
+    {
+        $this->stamp = $stamp;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

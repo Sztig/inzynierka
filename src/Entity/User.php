@@ -28,7 +28,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     *  @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="id")
      * @ORM\JoinColumn(nullable=false)
      */
     private $id;
@@ -72,7 +72,6 @@ class User implements UserInterface, \Serializable
     private $plainPassword;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="user")
      */
     private $stamps;

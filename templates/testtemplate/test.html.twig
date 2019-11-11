@@ -10,12 +10,7 @@
 <body class="bg-light">
 <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark p-0">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0"
-            {% if is_granted('ROLE_USER') %}
-            href="{{ path('stamp_user', {'id': app.user.id}) }}"
-            {% else %}
-            href="#"
-            {% endif %}
-    >Stamp App</a>
+       href="#">Stamp App</a>
     <div class="w-100 order-1 order-md-0">
         <ul class="navbar-nav px-3">
             {% if is_granted('ROLE_USER') %}
