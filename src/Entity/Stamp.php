@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Stamp
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -53,7 +54,7 @@ class Stamp
     private $serial_number;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="stamp")
      * @ORM\JoinColumn(nullable=false)
      */
     private $country;
@@ -66,10 +67,9 @@ class Stamp
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="stamp")
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $category = 0;
+    private $category;
 
     /**
      * @ORM\Column(type="datetime")
@@ -219,7 +219,7 @@ class Stamp
     }
 
     /**
-     * @return mixed
+     * @return Category
      */
     public function getCategory()
     {

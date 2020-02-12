@@ -12,6 +12,9 @@ use App\Entity\Stamp;
 use App\Entity\User;
 use App\Form\StampType;
 use App\Repository\StampRepository;
+use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -38,7 +41,10 @@ class StampController extends AbstractController
         $stamp = new Stamp();
         $stamp->setUser($user);
 
-        $form = $this->createForm(StampType::class, $stamp);
+        $form = $this->createForm(
+            StampType::class,
+            $stamp
+        );
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -52,11 +58,13 @@ class StampController extends AbstractController
             );
             $stamp->setImage($filename);
 
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($stamp);
             $em->flush();
 
-            return $this->redirectToRoute('stamp_user', array('id' => $stamp->getUser()->getId()));
+            return $this->redirectToRoute('stamp_user',
+                array('id' => $stamp->getUser()->getId()));
         }
 
         return $this->render('stamp/add.html.twig',
@@ -76,6 +84,18 @@ class StampController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file*/
+            $file = $request->files->get('stamp')['file'];
+            if($file!=null){
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                    $uploads_directory,
+                    $filename
+                );
+                $stamp->setImage($filename);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($stamp);
             $em->flush();
@@ -103,17 +123,28 @@ class StampController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="stamp_user")
+     * @Security("is_granted('ROLE_USER')")
+     * @Method({"GET", "HEAD"})
      */
-    public function userStamps(User $userWithStamps)
-    {
-        $html = $this->renderView(
-            'stamp/raw.html.twig',
-            [
-                'stamps' => $userWithStamps->getStamps()
-            ]
-        );
+    public function feed(TokenStorageInterface $tokenStorage, UserRepository $userRepository, StampRepository $stampRepository){
+        $currentUser = $tokenStorage->getToken()
+            ->getUser();
+        $usersToFollow = [];
 
-        return new Response($html);
+        if ($currentUser instanceof User) {
+            $stamp = $stampRepository->findAllByUsers(
+                $currentUser->getFollowing()
+            );
+            $usersToFollow = count($stamp);
+        }
+
+        return new Response(
+            $this->renderView('feed/feed.html.twig',
+                [
+                    'stamps' => $stamp,
+                    'usersToFollow' => $usersToFollow
+                ]
+                )
+        );
     }
 }

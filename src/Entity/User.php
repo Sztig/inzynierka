@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, \Serializable
 {
+
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
@@ -28,8 +29,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="id")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $id;
 
@@ -77,6 +76,11 @@ class User implements UserInterface, \Serializable
     private $stamps;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="user")
+     */
+    private $categories;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="following")
      */
     private $followers;
@@ -96,9 +100,18 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
+        $this->categories = new ArrayCollection();
         $this->stamps = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 
     /**

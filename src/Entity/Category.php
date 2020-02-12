@@ -22,22 +22,34 @@ class Category
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="id")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=280)
      * @Assert\NotBlank()
-     * @Assert\Length(min=10, max=240)
+     * @Assert\Length(min=3, max=100)
      */
     private $category;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="categories")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     */
+    private $user;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="category")
      */
     private $stamp;
+
+    /**
+     * @return mixed
+     */
+    public function getStamp()
+    {
+        return $this->stamp;
+    }
 
     /**
      * @return mixed
@@ -56,19 +68,19 @@ class Category
     }
 
     /**
-     * @return mixed
+     * @return User
      */
-    public function getStamp()
+    public function getUser()
     {
-        return $this->stamp;
+        return $this->user;
     }
 
     /**
-     * @param mixed $stamp
+     * @param mixed $user
      */
-    public function setStamp($stamp): void
+    public function setUser($user): void
     {
-        $this->stamp = $stamp;
+        $this->user = $user;
     }
 
     /**
@@ -78,4 +90,6 @@ class Category
     {
         return $this->id;
     }
+
+
 }

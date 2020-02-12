@@ -8,40 +8,94 @@
     {% endblock %}
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0"
-            {% if is_granted('ROLE_USER') %}
-            href="{{ path('stamp_user', {'id': app.user.id}) }}"
-            {% else %}
-            href="#"
-            {% endif %}
-    >Stamp App</a>
-    <div class="w-100 order-1 order-md-0">
-        <ul class="navbar-nav px-3">
-            {% if is_granted('ROLE_USER') %}
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="{{ path('stamp_add') }}">Add new stamp</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
 
-    <div class="order-2 order-md-1">
-        <ul class="navbar-nav px-3">
-            {% if is_granted('ROLE_USER') %}
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link"
-                       href="{{ path('security_logout') }}">Sign out</a>
-                </li>
-            {% else %}
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link"
-                       href="{{ path('security_login') }}">Sign in</a>
-                </li>
-            {% endif %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" {% if is_granted('ROLE_USER') %}
+        href="/"
+    {% else %}
+        href="#"
+    {% endif %}
+    >Stamp App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+                {% if is_granted('ROLE_USER') %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Stamp menu
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ path('stamp_user', {'id': app.user.id}) }}">Profile</a>
+                    <a class="dropdown-item" href="{{ path('stamp_add') }}">Add new stamp</a>
+                    <a class="dropdown-item" href="{{ path('category_add') }}">Add new category</a>
+                </div>
+            </li>
+                {% else %}
+            <li class="nav-item active">
+                <a class="nav-link"  href="{{ path('security_login') }}">Sign in</a> <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('user_register') }}">Register <span class="sr-only">(current)</span></a>
+            </li>
+                {% endif %}
         </ul>
+            {% if is_granted('ROLE_USER') %}
+        <form class="form-inline align-content-center my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('security_logout') }}">Sign out <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            {% endif %}
     </div>
 </nav>
+
+{#<nav class="navbar navbar-dark navbar-expand-md sticky-top bg-secondary p-0">#}
+    {#<li class="active"><a href="#">Home</a></li>#}
+    {#<li> <a class="navbar-brand col-sm-3 col-md-2 mr-0"#}
+                {#{% if is_granted('ROLE_USER') %}#}
+                    {#href="{{ path('stamp_user', {'id': app.user.id}) }}"#}
+                {#{% else %}#}
+                    {#href="#"#}
+                {#{% endif %}#}
+        {#>Stamp App</a>/li>#}
+    {#<li><a href="#">Contact</a></li>#}
+    {#<div class="w-100 order-1 order-md-0">#}
+        {#<ul class="navbar-nav px-3">#}
+            {#{% if is_granted('ROLE_USER') %}#}
+                {#<li class="nav-item text-nowrap">#}
+                    {#<a class="nav-link" href="{{ path('stamp_add') }}">Add new stamp</a>#}
+                {#</li>#}
+            {#{% endif %}#}
+        {#</ul>#}
+    {#</div>#}
+
+    {#<div class="order-2 order-md-1">#}
+        {#<ul class="navbar-nav px-3">#}
+            {#{% if is_granted('ROLE_USER') %}#}
+                {#<li class="nav-item text-nowrap">#}
+                    {#<a class="nav-item btn btn-primary"#}
+                       {#href="{{ path('security_logout') }}">Sign out</a>#}
+                {#</li>#}
+            {#{% else %}#}
+                {#<li class="nav-item text-nowrap">#}
+                    {#<a class="nav-item btn btn-primary"#}
+                       {#href="{{ path('security_login') }}">Sign in</a>#}
+                {#</li>#}
+                {#<li class="nav-item text-nowrap">#}
+                    {#<a class="nav-item btn btn-primary"#}
+                       {#href="{{ path('user_register') }}">Register</a>#}
+                {#</li>#}
+            {#{% endif %}#}
+        {#</ul>#}
+    {#</div>#}
+{#</nav>#}
 
 <main role="main" class="container">
     <div class="my-2 bg-white rounded box-shadow">

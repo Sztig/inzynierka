@@ -20,7 +20,7 @@ security:
 
             logout:
                 path: security_logout
-                target: template_test
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

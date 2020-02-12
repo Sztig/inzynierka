@@ -9,12 +9,19 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
+use App\Repository\StampRepository;
+use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
-
-class SecurityController
+class SecurityController extends Controller
 {
     /**
      * @var \Twig_Environment
@@ -29,8 +36,29 @@ class SecurityController
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils, Security $security, TokenStorageInterface $tokenStorage, StampRepository $stampRepository)
     {
+
+        if($security->isGranted('ROLE_USER')){
+            $currentUser = $tokenStorage->getToken()
+                ->getUser();
+            $usersToFollow = [];
+
+            if ($currentUser instanceof User) {
+                $stamp = $stampRepository->findAllByUsers(
+                    $currentUser->getFollowing()
+                );
+                $usersToFollow = count($stamp);
+            }
+
+            return $this->redirectToRoute('index',
+                [
+                    'stamps' => $stamp,
+                    'usersToFollow' => $usersToFollow
+                ]
+            );
+      }
+
         return new Response($this->twig->render(
             'security/login.html.twig',
             [

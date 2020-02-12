@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Stamp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @method Stamp|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,18 @@ class StampRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Stamp::class);
+    }
+
+    public function findAllByUsers(Collection $users)
+    {
+        $qb = $this->createQueryBuilder('stamp');
+
+        return $qb->select('stamp')
+            ->where('stamp.user in (:following)')
+            ->setParameter('following', $users)
+            ->orderBy('stamp.time', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

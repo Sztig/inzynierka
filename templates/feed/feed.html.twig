@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if usersToFollow|length < 1 %}
+
+        <p>You currently do not follow anyone</p>
+
+    {% else %}
+        <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
+
+
+        {% for stamp in stamps %}
+            {{ include('feed/feedRaw.html.twig', { 'stamp': stamp}) }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,53 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container w-auto">
-    <table class="table table-hover mr-1">
-    <thead>
-    {% if is_granted('ROLE_USER') %}
-        <tr>
-            <th>Stamp Name</th>
-            <th>Description</th>
-            <th>Color</th>
-            <th>Serial Number</th>
-            <th>Image</th>
-            <th></th>
-        </tr>
-    {% else %}
-        <tr>
-            <th>Stamp Name</th>
-            <th>Description</th>
-            <th>Color</th>
-            <th>Serial Number</th>
-            <th>Image</th>
-        </tr>
-    {% endif %}
-    </thead>
     {% for stamp in stamps %}
-    <div class="media text-muted pt-3">
-        {% if is_granted('ROLE_USER') %}
-            <td>{{ stamp.name }}</td>
-            <td>{{ stamp.description }}</td>
-            <td>{{ stamp.color }}</td>
-            <td>{{ stamp.serialnumber }}</td>
-            <td><a href="{{ asset('uploads/' ~stamp.image) }}", target="_blank"><img width="80" src="{{ asset('uploads/' ~stamp.image) }}"></a></td>
-            <td>
-                <a href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
-                <br>
-                <a href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
-            </td>
-        {% else %}
-            <tr>
-                <td>{{ stamp.name }}</td>
-                <td>{{ stamp.description }}</td>
-                <td>{{ stamp.color }}</td>
-                <td>{{ stamp.serialnumber }}</td>
-                <td><a href="{{ asset('uploads/' ~stamp.image) }}", target="_blank"><img width="80" src="{{ asset('uploads/' ~stamp.image) }}"></a></td>
-            </tr>
-        {% endif %}
-                </tbody>
-    {% endfor %}
-    </div>
-            </table>
+        <div class="media text-muted pt-3">
+            {% set initials = stamp.user.fullName|split(' ') %}
+            <div class="stamp-raw   ">
+                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <span class="d-block">
+                <p>
+                    <strong>Name:</strong> {{ stamp.name }}
+                    <small>· {{ stamp.time|date("d/m/y h:m") }}</small></span>
+                </p>
+                <div class="row">
+                    <div class="col-sm-auto">
+                        <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160" src="{{ asset('uploads/' ~stamp.image) }}"></a>
+                    </div>
+                    <div class="col-sm">
+                        <strong>Description:</strong> {{ stamp.description }}<br>
+                        <strong>Color: </strong>{{ stamp.color }}<br>
+                        <strong>Serial Number: </strong> {{ stamp.serialnumber }}<br>
+                        <strong>Country: </strong> {{ stamp.country.country }}
+                        {% if is_granted('ROLE_USER') %}
+                            <br>
+                        <a class="btn btn-primary" href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
+                        <a class="btn btn-primary"  href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
+    {% endfor %}
 {% endblock %}

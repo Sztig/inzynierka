@@ -17,13 +17,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Country
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="country")
      */
     private $id;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="country")
+    */
+    private $stamp;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -31,6 +36,14 @@ class Country
      * @Assert\Length(min=2, max=60)
      */
     private $country;
+
+    /**
+     * @return mixed
+     */
+    public function getStamp()
+    {
+        return $this->stamp;
+    }
 
     /**
      * @return mixed
