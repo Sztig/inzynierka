@@ -1,20 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if user != app.user %}
-        {% if user.followers.contains(app.user) == false %}
-            <a href="{{ path('following_follow', {'id': user.id}) }}"
-               class="btn btn-outline-primary">Follow</a> <br><br>
-        {% else %}
-            <a href="{{ path('following_unfollow', {'id': user.id}) }}"
-               class="btn btn-outline-danger">Unfollow</a> <br><br>
-        {% endif %}
+    <a class="btn btn-outline-primary" href="{{ app.request.headers.get('referer') }}">Go back</a>
+    {% for stamp in stamps[:1]%}
+    {% if is_granted('edit', stamp) %}
+        <br><br>
+        <a class="btn btn-outline-primary" href="{{ path('category_edit', {'id': stamp.category.id}) }}">Edit category</a>
     {% endif %}
-    {% if categories is not null %}
-        Categories: <br>
+    {% if is_granted('delete', stamp) %}
+        <a class="btn btn-outline-primary"  href="{{ path('category_delete', {'id': stamp.category.id}) }}">Delete category</a>
     {% endif %}
-    {% for category in categories %}
-    <a class="btn btn-outline-primary" href="{{ path('category_stamps', {'id': category.id}) }}"><i class="fa fa-folder"></i>  {{ category.category }}</a>
     {% endfor %}
     {% for stamp in stamps %}
         <div class="media text-muted pt-3">

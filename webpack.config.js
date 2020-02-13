@@ -12,7 +12,8 @@ Encore
     ])
     .addStyleEntry('css/app', [
         './node_modules/bootstrap/dist/css/bootstrap.min.css',
-        './assets/css/app.css'
+        './assets/css/app.css',
+        './node_modules/@fortawesome/fontawesome-free/css/all.css'
     ])
     .enableSingleRuntimeChunk()
 

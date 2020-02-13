@@ -100,7 +100,8 @@ class StampController extends AbstractController
             $em->persist($stamp);
             $em->flush();
 
-            return $this->redirectToRoute('stamp_user', array('id' => $stamp->getUser()->getId()));
+            return $this->redirectToRoute('stamp_user',
+                array('id' => $stamp->getUser()->getId()));
         }
         return $this->render('stamp/add.html.twig',
             ['form' => $form->createView()
@@ -119,7 +120,8 @@ class StampController extends AbstractController
 
         $this->addFlash('notice', 'stamp was deleted');
 
-        return $this->redirectToRoute('stamp_user', array('id' => $stamp->getUser()->getId()));
+        return $this->redirectToRoute('stamp_user',
+            array('id' => $stamp->getUser()->getId()));
     }
 
     /**

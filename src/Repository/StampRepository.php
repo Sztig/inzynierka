@@ -32,6 +32,23 @@ class StampRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllByCategory($category)
+    {
+        $qb = $this->createQueryBuilder('category');
+
+        return $qb->select('stamp')
+            ->where('category.user = :user')
+            ->setParameter('category', $category)
+            ->orderBy('category.name', 'ASC');
+
+
+//            ->where('stamp.user in (:following)')
+//            ->setParameter('following', $users)
+//            ->orderBy('stamp.time', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+    }
+
     // /**
     //  * @return Stamp[] Returns an array of Stamp objects
     //  */

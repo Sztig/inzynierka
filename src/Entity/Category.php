@@ -52,7 +52,7 @@ class Category
     }
 
     /**
-     * @return mixed
+     * @return Category
      */
     public function getCategory()
     {
@@ -90,6 +90,5 @@ class Category
     {
         return $this->id;
     }
-
 
 }

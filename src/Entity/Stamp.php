@@ -67,7 +67,7 @@ class Stamp
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="stamp")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $category;
 

@@ -43,9 +43,10 @@
                 {% endif %}
         </ul>
             {% if is_granted('ROLE_USER') %}
-        <form class="form-inline align-content-center my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline align-content-center my-2 my-lg-0" action="{{ path('user_search') }}" method="post">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search" id="query" name="_query">
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+            <input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}">
         </form>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
@@ -80,16 +81,16 @@
         {#<ul class="navbar-nav px-3">#}
             {#{% if is_granted('ROLE_USER') %}#}
                 {#<li class="nav-item text-nowrap">#}
-                    {#<a class="nav-item btn btn-primary"#}
+                    {#<a class="nav-item btn btn-outline-primary"#}
                        {#href="{{ path('security_logout') }}">Sign out</a>#}
                 {#</li>#}
             {#{% else %}#}
                 {#<li class="nav-item text-nowrap">#}
-                    {#<a class="nav-item btn btn-primary"#}
+                    {#<a class="nav-item btn btn-outline-primary"#}
                        {#href="{{ path('security_login') }}">Sign in</a>#}
                 {#</li>#}
                 {#<li class="nav-item text-nowrap">#}
-                    {#<a class="nav-item btn btn-primary"#}
+                    {#<a class="nav-item btn btn-outline-primary"#}
                        {#href="{{ path('user_register') }}">Register</a>#}
                 {#</li>#}
             {#{% endif %}#}
