@@ -10,12 +10,18 @@
                class="btn btn-outline-danger ml-2 mt-2">Unfollow</a> <br><br>
         {% endif %}
     {% endif %}
-    {% if categories|length > 1 %}
-        Categories: <br>
+    {% if categories|length > 0 %}
+        <br></b4><h4 class="text-center">Categories: </h4>
     {% endif %}
     {% for category in categories %}
-    <a class="btn btn-outline-primary m-2" href="{{ path('category_stamps', {'id': category.id}) }}"><i class="fa fa-folder"></i>  {{ category.category }}</a>
+        <a class="btn btn-outline-primary m-1" href="{{ path('category_stamps', {'id': category.id}) }}"><i
+                    class="fa fa-folder"></i> {{ category.category }}</a>
     {% endfor %}
+    {% if stamps|length > 0 %}
+        <br></b4><h4 class="text-center">Stamps:</h4>
+    {% else %}
+        <br></b4><h4 class="text-center p-5">There are no stamps to show</h4>
+    {% endif %}
     {% for stamp in stamps %}
         <div class="media text-muted pt-3">
             {% set initials = stamp.user.fullName|split(' ') %}
@@ -24,11 +30,13 @@
         <span class="d-block">
                 <p>
                     <strong>Name:</strong> {{ stamp.name }}
-                    <small>· {{ stamp.time|date("d/m/y h:i") }}</small></span>
+                    <small>· {{ stamp.time|date("d/m/y h:i") }}</small>
+                    </span>
                 </p>
                 <div class="row">
                     <div class="col-sm-auto">
-                        <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160" src="{{ asset('uploads/' ~stamp.image) }}"></a>
+                        <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160"
+                                                                                            src="{{ asset('uploads/' ~stamp.image) }}"></a>
                     </div>
                     <div class="col-sm">
                         <strong>Description:</strong> {{ stamp.description }}<br>
@@ -39,14 +47,16 @@
                     </div>
                 </div>
                 {% if is_granted('ROLE_USER') %}
-                    <a class="btn btn-outline-primary my-2" href="{{ path('stamp_show', {'id': stamp.id}) }}">Add comment</a>
+                    <a class="btn btn-outline-primary my-2" href="{{ path('stamp_show', {'id': stamp.id}) }}">Add
+                        comment</a>
                 {% endif %}
                 {% if is_granted('edit', stamp) %}
                     <a class="btn btn-outline-primary float-right " href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
                 {% endif %}
 
                 {% if is_granted('delete', stamp) %}
-                    <a class="btn btn-outline-primary float-right mr-2"  href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
+                    <a class="btn btn-outline-primary float-right mr-2"
+                       href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
                 {% endif %}
             </div>
         </div>

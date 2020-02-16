@@ -87,7 +87,7 @@ class Stamp
     private $year;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="stamp")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="stamp", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $comments;
