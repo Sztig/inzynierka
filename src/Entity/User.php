@@ -81,6 +81,12 @@ class User implements UserInterface, \Serializable
     private $categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $comments;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="following")
      */
     private $followers;
@@ -100,11 +106,21 @@ class User implements UserInterface, \Serializable
 
     public function __construct()
     {
+        $this->comments = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->stamps = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
 
     /**
      * @return mixed

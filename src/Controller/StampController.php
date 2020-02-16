@@ -8,9 +8,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Stamp;
 use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\StampType;
+use App\Repository\CommentRepository;
 use App\Repository\StampRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -71,6 +74,43 @@ class StampController extends AbstractController
             ['form' => $form->createView()
             ]);
     }
+
+    /**
+     * @Route("/{id}", name="stamp_show")
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function show(TokenStorageInterface $storage, Request $request, Stamp $stamp, CommentRepository $commentRepository)
+    {
+        $user = $storage->getToken()->getUser();
+        $comment= new Comment();
+        $comment->setUser($user);
+        $comment->setStamp($stamp);
+
+        $form = $this->createForm(
+            CommentType::class,
+            $comment
+        );
+        $form->handleRequest($request);
+
+        $comments = $commentRepository->findAllByStamp($stamp->getId());
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('stamp_show',
+                array('id' => $stamp->getId()));
+        }
+
+        return $this->render('stamp/singleStamp.html.twig',
+            ['form' => $form->createView(),
+                'stamp' => $stamp,
+                'comments' => $comments
+            ]);
+    }
+
     /**
      * @Route("/edit/{id}", name="stamp_edit")
      * @Security("is_granted('edit', stamp)", message="Access denied")

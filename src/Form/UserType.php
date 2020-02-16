@@ -31,7 +31,9 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Repeat Password']
                 ])
             ->add('fullname', TextType::class)
-            ->add('Register', SubmitType::class);
+            ->add('Register', SubmitType::class, [
+                'attr'=> array('class'=>'btn btn-outline-primary')
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

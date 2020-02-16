@@ -81,6 +81,51 @@ class Stamp
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $year;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="stamp")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $comments;
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param mixed $year
+     */
+    public function setYear($year): void
+    {
+        $this->year = $year;
+    }
+
+
     public function getImage()
     {
         return $this->image;

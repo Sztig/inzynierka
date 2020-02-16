@@ -15,6 +15,7 @@ use App\Entity\Stamp;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -67,6 +68,9 @@ class StampType extends AbstractType
            ->add('serialNumber', TextType::class, [
                'label' => 'Serial Number'
            ])
+           ->add('year', IntegerType::class, [
+               'label' => 'Year'
+               ])
            ->add('file', FileType::class,[
                'mapped' => false,
                'label' => 'Please upload your image',
@@ -81,7 +85,9 @@ class StampType extends AbstractType
                    ])
                ],
            ])
-           ->add('save', SubmitType::class);
+           ->add('Save', SubmitType::class, [
+               'attr'=> array('class'=>'btn btn-outline-primary')
+           ]);
        ;
     }
 

@@ -62,6 +62,8 @@ class CategoryController extends AbstractController
             'category/raw.html.twig',
             [
                 'stamps' => $stamp,
+                'id' => $id,
+                'category' => $category
             ]
         );
 

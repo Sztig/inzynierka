@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="media text-muted pt-3">
+        {% set initials = stamp.user.fullName|split(' ') %}
+        <div class="stamp-raw   ">
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <span class="d-block">
+            <p>
+                <strong>Name:</strong> {{ stamp.name }}
+                <small>· {{ stamp.time|date("d/m/y h:i") }}</small>
+                </span>
+            </p>
+            <div class="row">
+                <div class="col-sm-auto">
+                    <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160"
+                                                                                        src="{{ asset('uploads/' ~stamp.image) }}"></a>
+                </div>
+                <div class="col-sm">
+                    <strong>Description:</strong> {{ stamp.description }}<br>
+                    <strong>Color: </strong>{{ stamp.color }}<br>
+                    <strong>Serial Number: </strong> {{ stamp.serialnumber }}<br>
+                    <strong>Country: </strong> {{ stamp.country.country }}<br>
+                    <strong>Year: </strong> {{ stamp.year }} <br>
+                </div>
+            </div>
+            {% if is_granted('edit', stamp) %}
+                <a class="btn btn-outline-primary float-right " href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
+            {% endif %}
+
+            {% if is_granted('delete', stamp) %}
+                <a class="btn btn-outline-primary float-right mr-2"  href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    {{ form_start(form , { 'attr': {'class': 'p-2'} }) }}
+
+    {{ form_widget(form , { 'attr': {'class': 'p-2'} }) }}
+
+    {{ form_end(form , { 'attr': {'class': 'p-2'} }) }}
+    {% for comment in comments %}
+        <div class="media text-muted pt-3">
+            <div class="col-lg-12">
+                <div class="media g-mb-30 media-comment">
+                    <div class="media-body u-shadow-v18 g-bg-secondary p-2  ">
+                        <div class="g-mb-15">
+                            <a href="{{ path('stamp_user', {'id': comment.user.id }) }}"><h5 class="h5 g-color-gray-dark-v1 mb-0">@{{ comment.user.username }}</h5></a>
+                            <span class="g-color-gray-dark-v4 g-font-size-12">{{ comment.time|date("d/m/y h:i") }}</span>
+                        </div>
+                        <p>{{ comment.text }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -43,7 +43,7 @@
                 {% endif %}
         </ul>
             {% if is_granted('ROLE_USER') %}
-        <form class="form-inline align-content-center my-2 my-lg-0" action="{{ path('user_search') }}" method="post">
+        <form class="form-inline align-content-center my-2 my-lg-0 py-2" action="{{ path('user_search') }}" method="post">
             <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search" id="query" name="_query">
             <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
             <input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}">

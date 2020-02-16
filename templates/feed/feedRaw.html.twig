@@ -10,9 +10,9 @@
                 <strong class="text-gray-dark">@{{ stamp.user.username }}</strong>
             </a>
             has added a new stamp
-            <small>· {{ stamp.time|date("d/m/y h:m") }}</small></span>
+            <small>· {{ stamp.time|date("d/m/y h:i") }}</small></span>
         </p>
-        <div class="row">
+        <div class="row mb-1">
             <div class="col-sm-auto">
                 <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160" src="{{ asset('uploads/' ~stamp.image) }}"></a>
             </div>
@@ -20,15 +20,17 @@
                 <strong>Description:</strong> {{ stamp.description }}<br>
                 <strong>Color: </strong>{{ stamp.color }}<br>
                 <strong>Serial Number: </strong> {{ stamp.serialnumber }}<br>
-                <strong>Country: </strong> {{ stamp.country.country }}
-                {% if is_granted('edit', stamp) %}
-                    <br>
-                    <a class="btn btn-outline-primary" href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
-                {% endif %}
-                {% if is_granted('delete', stamp) %}
-                    <a class="btn btn-outline-primary"  href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
+                <strong>Country: </strong> {{ stamp.country.country }}<br>
+                <strong>Year: </strong> {{ stamp.year }}<br>
+                {% if stamp.category is not null %}
+                <strong>Category: </strong> {{ stamp.category.category }}
+                {% else %}
+                <strong>Category: </strong> none <br><br>
                 {% endif %}
             </div>
         </div>
+        {% if is_granted('ROLE_USER') %}
+            <a class="btn btn-outline-primary mb-2" href="{{ path('stamp_show', {'id': stamp.id}) }}">Add comment</a>
+        {% endif %}
     </div>
 </div>

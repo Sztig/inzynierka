@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a class="btn btn-outline-primary" href="{{ app.request.headers.get('referer') }}">Go back</a><br><br>
+    <a class="btn btn-outline-primary m-2" href="{{ app.request.headers.get('referer') }}">Go back</a><br><br>
+    <h4 class="text-center">Search results:</h4>
+    <div class="p-2">
     {% for user in users %}
             <a class="btn btn-outline-primary" href="{{ path('stamp_user', {'id': user.id}) }}"><i class="fa fa-user"></i>  {{ user.username }}</a>
     {% endfor %}
+    </div>
 {% endblock %}
