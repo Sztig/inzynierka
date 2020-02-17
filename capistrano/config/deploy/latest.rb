@@ -10,6 +10,8 @@ namespace :deploy do
     on roles(:app), in: :groups, limit: 3, wait: 10 do
         within "#{release_path}/" do
           execute 'composer', 'install', '--ignore-platform-reqs'
+          execute 'yarn', 'install'
+          execute 'yarn', 'run', 'encore', 'production'
         end
     end
   end
