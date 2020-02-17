@@ -7,5 +7,5 @@ install_plugin Capistrano::SCM::Git
 
 Dir.glob("lib/capistrano/tasks/*.cap").each { |r| import r }
 
-set :webpack_encore_env, "dev"    # default
+set :webpack_encore_env, "devs"    # default
 set :webpack_encore_flags, ""            # default
