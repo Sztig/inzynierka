@@ -1,8 +1,11 @@
 require "capistrano/setup"
-
+require 'capistrano/webpack_encore'
 require "capistrano/deploy"
 
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
 Dir.glob("lib/capistrano/tasks/*.cap").each { |r| import r }
+
+set :webpack_encore_env, "production"    # default
+set :webpack_encore_flags, ""            # default
