@@ -1,7 +1,7 @@
-lock '3.8.2'
+lock '3.10.0'
 
 set :application, 'stampapp'
-set :repo_url, 'ssh://git@github.com:Sztig/inzynierka.git'
+set :repo_url, 'git@github.com:Sztig/inzynierka.git'
 
 set :keep_releases, 2
 
