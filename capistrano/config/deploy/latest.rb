@@ -11,7 +11,7 @@ namespace :deploy do
         within "#{release_path}/" do
           execute 'composer', 'install', '--ignore-platform-reqs'
           execute 'yarn', 'install'
-          execute 'yarn', 'run', 'encore', 'production'
+          execute 'yarn', 'run', 'encore', 'dev'
         end
     end
   end
