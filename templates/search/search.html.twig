@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a class="btn btn-outline-primary m-2" href="{{ app.request.headers.get('referer') }}">Go back</a><br><br>
     <h4 class="text-center">Search results:</h4>
     <div class="p-2">
     {% for user in users %}
