@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 11.09.19
- * Time: 18:51
+ * Time: 18:51.
  */
 
 namespace App\Entity;
@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Stamp
 {
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -72,6 +71,12 @@ class Stamp
     private $category;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Collection", inversedBy="stamp")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $collection;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $time;
@@ -108,7 +113,6 @@ class Stamp
         $this->comments = $comments;
     }
 
-
     /**
      * @return mixed
      */
@@ -124,7 +128,6 @@ class Stamp
     {
         $this->year = $year;
     }
-
 
     public function getImage()
     {
@@ -277,6 +280,22 @@ class Stamp
     public function setCategory($category): void
     {
         $this->category = $category;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param mixed $collection
+     */
+    public function setCollection($collection): void
+    {
+        $this->collection = $collection;
     }
 
 

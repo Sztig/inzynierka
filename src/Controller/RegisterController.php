@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 02.04.19
- * Time: 19:52
+ * Time: 19:52.
  */
 
 namespace App\Controller;
@@ -26,7 +26,7 @@ class RegisterController extends Controller
      */
     public function register(AuthenticationUtils $authenticationUtils, Security $security, TokenStorageInterface $tokenStorage, StampRepository $stampRepository, UserPasswordEncoderInterface $passwordEncoder, Request $request)
     {
-        if($security->isGranted('ROLE_USER')){
+        if ($security->isGranted('ROLE_USER')) {
             $currentUser = $tokenStorage->getToken()
                 ->getUser();
             $usersToFollow = [];
@@ -41,7 +41,7 @@ class RegisterController extends Controller
             return $this->redirectToRoute('index',
                 [
                     'stamps' => $stamp,
-                    'usersToFollow' => $usersToFollow
+                    'usersToFollow' => $usersToFollow,
                 ]
             );
         }
@@ -50,13 +50,13 @@ class RegisterController extends Controller
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword(
                 $user,
                 $user->getPlainPassword()
             );
             $user->setPassword($password);
-            $user->setRoles(array('ROLE_USER'));
+            $user->setRoles(['ROLE_USER']);
             $entityyManager = $this->getDoctrine()->getManager();
             $entityyManager->persist($user);
             $entityyManager->flush();
@@ -65,7 +65,7 @@ class RegisterController extends Controller
         }
 
         return $this->render('register/register.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

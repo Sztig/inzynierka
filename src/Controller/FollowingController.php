@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 08.04.19
- * Time: 00:31
+ * Time: 00:31.
  */
 
 namespace App\Controller;
@@ -27,8 +27,7 @@ class FollowingController extends Controller
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if ($userToFollow->getId() !== $currentUser->getId())
-        {
+        if ($userToFollow->getId() !== $currentUser->getId()) {
             $currentUser->follow($userToFollow);
 
             $this->getDoctrine()
@@ -37,7 +36,7 @@ class FollowingController extends Controller
         }
 
         return $this->redirectToRoute('stamp_user',
-            array('id' => $currentUser->getId()));
+            ['id' => $currentUser->getId()]);
     }
 
     /**
@@ -55,6 +54,6 @@ class FollowingController extends Controller
             ->flush();
 
         return $this->redirectToRoute('stamp_user',
-            array('id' => $currentUser->getId()));
+            ['id' => $currentUser->getId()]);
     }
 }

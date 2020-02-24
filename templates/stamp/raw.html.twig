@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     {% if user != app.user %}
         {% if user.followers.contains(app.user) == false %}
             <a href="{{ path('following_follow', {'id': user.id}) }}"
@@ -10,17 +11,42 @@
                class="btn btn-outline-danger ml-2 mt-2">Unfollow</a> <br><br>
         {% endif %}
     {% endif %}
+
+    {% if public_collections|length > 0 %}
+        <br><h4 class="text-center">Public Collections: </h4>
+    {% endif %}
+    {% for collection in public_collections %}
+        <a class="btn btn-outline-primary m-1" href="{{ path('collection_stamps', {'id': collection.id}) }}"><i
+                    class="fa fa-folder"></i> {{ collection.collection }}</a>
+    {% endfor %}
+
+    {% if private_collections|length > 0 %}
+        {% for collection in private_collections %}
+            {% if loop.first %}
+                {% if is_granted('view', collection) %}
+                    <br><h4 class="text-center">Private Collections: </h4>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% for collection in private_collections %}
+        {% if is_granted('view', collection) %}
+            <a class="btn btn-outline-primary m-1" href="{{ path('collection_stamps', {'id': collection.id}) }}"><i
+                        class="fa fa-folder"></i> {{ collection.collection }}</a>
+        {% endif %}
+    {% endfor %}
+
     {% if categories|length > 0 %}
-        <br></b4><h4 class="text-center">Categories: </h4>
+        <br><h4 class="text-center">Categories: </h4>
     {% endif %}
     {% for category in categories %}
         <a class="btn btn-outline-primary m-1" href="{{ path('category_stamps', {'id': category.id}) }}"><i
                     class="fa fa-folder"></i> {{ category.category }}</a>
     {% endfor %}
     {% if stamps|length > 0 %}
-        <br></b4><h4 class="text-center">Stamps:</h4>
+        <br><h4 class="text-center">Stamps:</h4>
     {% else %}
-        <br></b4><h4 class="text-center p-5">There are no stamps to show</h4>
+        <br><h4 class="text-center p-5">There are no stamps to show</h4>
     {% endif %}
     {% for stamp in stamps %}
         <div class="media text-muted pt-3">

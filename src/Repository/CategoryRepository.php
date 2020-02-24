@@ -6,7 +6,6 @@ use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
  * @method Category|null findOneBy(array $criteria, array $orderBy = null)
@@ -28,7 +27,6 @@ class CategoryRepository extends ServiceEntityRepository
             ->where('category.user = :user')
             ->setParameter('user', $user)
             ->orderBy('category.category', 'ASC');
-
 
 //            ->where('stamp.user in (:following)')
 //            ->setParameter('following', $users)

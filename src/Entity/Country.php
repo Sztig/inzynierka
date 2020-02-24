@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 11.09.19
- * Time: 19:08
+ * Time: 19:08.
  */
 
 namespace App\Entity;
@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Country
 {
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -26,8 +25,8 @@ class Country
     private $id;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="country")
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="country")
+     */
     private $stamp;
 
     /**
@@ -68,7 +67,4 @@ class Country
     {
         $this->country = $country;
     }
-
-
-
 }

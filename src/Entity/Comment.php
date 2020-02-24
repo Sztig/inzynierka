@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 15.02.20
- * Time: 23:27
+ * Time: 23:27.
  */
 
 namespace App\Entity;
@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -126,5 +125,4 @@ class Comment
     {
         $this->time = new \DateTime();
     }
-
 }

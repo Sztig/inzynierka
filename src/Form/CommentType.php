@@ -3,15 +3,15 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 15.02.20
- * Time: 23:49
+ * Time: 23:49.
  */
 
 namespace App\Form;
 
 use App\Entity\Comment;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,17 +22,17 @@ class CommentType extends AbstractType
         $builder
             ->add('text', TextareaType::class, [
                 'empty_data' => 'Add your comment',
-                'label' => false
+                'label' => false,
             ])
             ->add('Save comment', SubmitType::class, [
-                'attr'=> array('class'=>'btn btn-outline-primary')
+                'attr' => ['class' => 'btn btn-outline-primary'],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class
+            'data_class' => Comment::class,
         ]);
     }
 }

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 11.09.19
- * Time: 18:21
+ * Time: 18:21.
  */
 
 namespace App\Entity;
@@ -21,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, \Serializable
 {
-
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
@@ -81,6 +80,11 @@ class User implements UserInterface, \Serializable
     private $categories;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Collection", mappedBy="user")
+     */
+    private $collections;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -111,6 +115,7 @@ class User implements UserInterface, \Serializable
         $this->stamps = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     /**
@@ -121,7 +126,6 @@ class User implements UserInterface, \Serializable
         return $this->comments;
     }
 
-
     /**
      * @return mixed
      */
@@ -129,6 +133,16 @@ class User implements UserInterface, \Serializable
     {
         return $this->categories;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCollections()
+    {
+        return $this->collections;
+    }
+
+
 
     /**
      * @return mixed
@@ -154,8 +168,6 @@ class User implements UserInterface, \Serializable
         return $this->plainPassword;
     }
 
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -166,7 +178,7 @@ class User implements UserInterface, \Serializable
         return serialize([
             $this->id,
             $this->username,
-            $this->password
+            $this->password,
         ]);
     }
 
@@ -239,7 +251,6 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-
     }
 
     /**
@@ -250,9 +261,6 @@ class User implements UserInterface, \Serializable
         return $this->stamps;
     }
 
-    /**
-     * @param array $roles
-     */
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
@@ -276,13 +284,10 @@ class User implements UserInterface, \Serializable
 
     public function follow(User $userToFollow)
     {
-        if ($this->getFollowing()->contains($userToFollow))
-        {
+        if ($this->getFollowing()->contains($userToFollow)) {
             return;
         }
 
         $this->getFollowing()->add($userToFollow);
     }
-
-
 }

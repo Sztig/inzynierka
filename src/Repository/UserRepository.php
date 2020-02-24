@@ -20,18 +20,17 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $query
      * @return mixed
      */
     public function findUserByName(string $query)
     {
         $qb = $this->createQueryBuilder('user');
+
         return $qb
             ->where('user.username LIKE :query')
             ->setParameter('query', '%'.$query.'%')
             ->getQuery()
             ->getResult();
-
     }
 
     // /**

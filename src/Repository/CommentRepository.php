@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 15.02.20
- * Time: 23:36
+ * Time: 23:36.
  */
 
 namespace App\Repository;
@@ -35,7 +35,5 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('comment.time', 'ASC')
             ->getQuery()
             ->getResult();
-
     }
-
 }

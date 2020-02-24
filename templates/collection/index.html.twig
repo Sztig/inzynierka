@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form , { 'attr': {'class': 'p-2'} }) }}
+
+    {{ form_widget(form , { 'attr': {'class': 'p-2'} }) }}
+
+    {{ form_end(form , { 'attr': {'class': 'p-2'} }) }}
+{% endblock %}

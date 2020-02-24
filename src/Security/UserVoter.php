@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 27.01.20
- * Time: 19:25
+ * Time: 19:25.
  */
 
 namespace App\Security;
-
 
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,11 +18,11 @@ class UserVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::EDIT])){
+        if (!in_array($attribute, [self::EDIT])) {
             return false;
         }
 
-        if (!$subject instanceof User){
+        if (!$subject instanceof User) {
             return false;
         }
 
@@ -34,7 +33,7 @@ class UserVoter extends Voter
     {
         $authenticatedUser = $token->getUser();
 
-        if (!$authenticatedUser instanceof User){
+        if (!$authenticatedUser instanceof User) {
             return false;
         }
 
@@ -42,6 +41,5 @@ class UserVoter extends Voter
         $user = $subject;
 
         return $user->getId() === $authenticatedUser->getId();
-
     }
 }

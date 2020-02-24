@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Stamp;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Stamp|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,12 +25,35 @@ class StampRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('stamp');
 
-        return $qb->select('stamp')
+        return $qb->leftJoin('stamp.collection', 'collection')
             ->where('stamp.user in (:following)')
+            ->andWhere('collection.status = :public OR stamp.collection IS null')
             ->setParameter('following', $users)
+            ->setParameter('public', 'public')
             ->orderBy('stamp.time', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllWithoutCategoryAndCollection($user)
+    {
+        $qb = $this->createQueryBuilder('stamp');
+
+        return $qb->select('stamp')
+            ->where($qb->expr()->isNull('stamp.collection'))
+            ->andWhere($qb->expr()->isNull('stamp.category'))
+            ->andWhere('stamp.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('stamp.time', 'DESC')
+            ->getQuery()
+            ->getResult();;
+//
+//        $qb = $this->createQueryBuilder('collection');
+//
+//        return $qb->select('collection')
+//            ->where('collection.user = :user')
+//            ->setParameter('user', $user)
+//            ->orderBy('collection.collection', 'ASC');
     }
 
     public function findAllByCategory($category)
@@ -40,7 +64,6 @@ class StampRepository extends ServiceEntityRepository
             ->where('category.user = :user')
             ->setParameter('category', $category)
             ->orderBy('category.name', 'ASC');
-
 
 //            ->where('stamp.user in (:following)')
 //            ->setParameter('following', $users)

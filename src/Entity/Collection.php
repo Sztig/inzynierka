@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: sztig
- * Date: 11.09.19
- * Time: 19:18.
+ * Date: 23.02.20
+ * Time: 15:34
  */
 
 namespace App\Entity;
@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CollectionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Category
+class Collection
 {
     /**
      * @ORM\Id()
@@ -29,18 +29,32 @@ class Category
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=100)
      */
-    private $category;
+    private $collection;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="categories")
+     * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank()
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="collections")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stamp", mappedBy="collection")
      */
     private $stamp;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -51,19 +65,19 @@ class Category
     }
 
     /**
-     * @return Category
+     * @return Collection
      */
-    public function getCategory()
+    public function getCollection()
     {
-        return $this->category;
+        return $this->collection;
     }
 
     /**
-     * @param mixed $category
+     * @param mixed $collection
      */
-    public function setCategory($category): void
+    public function setCollection($collection): void
     {
-        $this->category = $category;
+        $this->collection = $collection;
     }
 
     /**
@@ -85,8 +99,17 @@ class Category
     /**
      * @return mixed
      */
-    public function getId()
+    public function getStatus()
     {
-        return $this->id;
+        return $this->status;
     }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
 }

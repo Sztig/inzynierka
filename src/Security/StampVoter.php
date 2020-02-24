@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 11.11.19
- * Time: 15:35
+ * Time: 15:35.
  */
 
 namespace App\Security;
-
 
 use App\Entity\Stamp;
 use App\Entity\User;
@@ -21,11 +20,11 @@ class StampVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::EDIT, self::DELETE])){
+        if (!in_array($attribute, [self::EDIT, self::DELETE])) {
             return false;
         }
 
-        if (!$subject instanceof Stamp){
+        if (!$subject instanceof Stamp) {
             return false;
         }
 
@@ -36,7 +35,7 @@ class StampVoter extends Voter
     {
         $authenticatedUser = $token->getUser();
 
-        if (!$authenticatedUser instanceof User){
+        if (!$authenticatedUser instanceof User) {
             return false;
         }
 
@@ -44,7 +43,5 @@ class StampVoter extends Voter
         $stamp = $subject;
 
         return $stamp->getUser()->getId() === $authenticatedUser->getId();
-
     }
-
 }

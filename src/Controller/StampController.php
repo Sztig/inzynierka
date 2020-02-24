@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 08.11.19
- * Time: 15:09
+ * Time: 15:09.
  */
 
 namespace App\Controller;
@@ -17,23 +17,19 @@ use App\Repository\CommentRepository;
 use App\Repository\StampRepository;
 use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 /**
  * @Route("/stamp")
  */
 class StampController extends AbstractController
 {
-
     /**
      * @Route("/add", name="stamp_add")
      * @Security("is_granted('ROLE_USER')")
@@ -50,39 +46,37 @@ class StampController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $file*/
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
             $file = $request->files->get('stamp')['file'];
             $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $filename = md5(uniqid()).'.'.$file->guessExtension();
             $file->move(
                 $uploads_directory,
                 $filename
             );
             $stamp->setImage($filename);
 
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($stamp);
             $em->flush();
 
             return $this->redirectToRoute('stamp_user',
-                array('id' => $stamp->getUser()->getId()));
+                ['id' => $stamp->getUser()->getId()]);
         }
 
         return $this->render('stamp/add.html.twig',
-            ['form' => $form->createView()
+            ['form' => $form->createView(),
             ]);
     }
 
     /**
      * @Route("/{id}", name="stamp_show")
-     * @Security("is_granted('ROLE_USER')")
      */
     public function show(TokenStorageInterface $storage, Request $request, Stamp $stamp, CommentRepository $commentRepository)
     {
         $user = $storage->getToken()->getUser();
-        $comment= new Comment();
+        $comment = new Comment();
         $comment->setUser($user);
         $comment->setStamp($stamp);
 
@@ -94,20 +88,19 @@ class StampController extends AbstractController
 
         $comments = $commentRepository->findAllByStamp($stamp->getId());
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
 
             return $this->redirectToRoute('stamp_show',
-                array('id' => $stamp->getId()));
+                ['id' => $stamp->getId()]);
         }
 
         return $this->render('stamp/singleStamp.html.twig',
             ['form' => $form->createView(),
                 'stamp' => $stamp,
-                'comments' => $comments
+                'comments' => $comments,
             ]);
     }
 
@@ -124,11 +117,11 @@ class StampController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $file*/
+            /** @var UploadedFile $file */
             $file = $request->files->get('stamp')['file'];
-            if($file!=null){
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            if (null != $file) {
+                $uploads_directory = $this->getParameter('uploads_directory');
+                $filename = md5(uniqid()).'.'.$file->guessExtension();
                 $file->move(
                     $uploads_directory,
                     $filename
@@ -141,10 +134,11 @@ class StampController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('stamp_user',
-                array('id' => $stamp->getUser()->getId()));
+                ['id' => $stamp->getUser()->getId()]);
         }
+
         return $this->render('stamp/add.html.twig',
-            ['form' => $form->createView()
+            ['form' => $form->createView(),
             ]);
     }
 
@@ -161,14 +155,15 @@ class StampController extends AbstractController
         $this->addFlash('notice', 'stamp was deleted');
 
         return $this->redirectToRoute('stamp_user',
-            array('id' => $stamp->getUser()->getId()));
+            ['id' => $stamp->getUser()->getId()]);
     }
 
     /**
      * @Security("is_granted('ROLE_USER')")
      * @Method({"GET", "HEAD"})
      */
-    public function feed(TokenStorageInterface $tokenStorage, UserRepository $userRepository, StampRepository $stampRepository){
+    public function feed(TokenStorageInterface $tokenStorage, UserRepository $userRepository, StampRepository $stampRepository)
+    {
         $currentUser = $tokenStorage->getToken()
             ->getUser();
         $usersToFollow = [];
@@ -184,7 +179,7 @@ class StampController extends AbstractController
             $this->renderView('feed/feed.html.twig',
                 [
                     'stamps' => $stamp,
-                    'usersToFollow' => $usersToFollow
+                    'usersToFollow' => $usersToFollow,
                 ]
                 )
         );

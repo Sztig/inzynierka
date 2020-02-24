@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 13.02.20
- * Time: 22:12
+ * Time: 22:12.
  */
 
 namespace App\Security;
@@ -20,11 +20,11 @@ class CustomCategoryVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::EDIT, self::DELETE])){
+        if (!in_array($attribute, [self::EDIT, self::DELETE])) {
             return false;
         }
 
-        if (!$subject instanceof Category){
+        if (!$subject instanceof Category) {
             return false;
         }
 
@@ -35,7 +35,7 @@ class CustomCategoryVoter extends Voter
     {
         $authenticatedUser = $token->getUser();
 
-        if (!$authenticatedUser instanceof User){
+        if (!$authenticatedUser instanceof User) {
             return false;
         }
 
@@ -43,7 +43,5 @@ class CustomCategoryVoter extends Voter
         $category = $subject;
 
         return $category->getUser()->getId() === $authenticatedUser->getId();
-
     }
-
 }

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\User;
 use App\Form\CategoryType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,18 +31,17 @@ class CategoryController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
 
             return $this->redirectToRoute('stamp_user',
-                array('id' => $category->getUser()->getId()));
+                ['id' => $category->getUser()->getId()]);
         }
 
         return $this->render('category/index.html.twig',
-            ['form' => $form->createView()
+            ['form' => $form->createView(),
             ]);
     }
 
@@ -63,7 +61,7 @@ class CategoryController extends AbstractController
             [
                 'stamps' => $stamp,
                 'id' => $id,
-                'category' => $category
+                'category' => $category,
             ]
         );
 
@@ -82,18 +80,17 @@ class CategoryController extends AbstractController
         );
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
 
             return $this->redirectToRoute('stamp_user',
-                array('id' => $category->getUser()->getId()));
+                ['id' => $category->getUser()->getId()]);
         }
 
         return $this->render('category/index.html.twig',
-            ['form' => $form->createView()
+            ['form' => $form->createView(),
             ]);
     }
 
@@ -110,7 +107,6 @@ class CategoryController extends AbstractController
         $this->addFlash('notice', 'category was deleted');
 
         return $this->redirectToRoute('stamp_user',
-            array('id' => $category->getUser()->getId()));
+            ['id' => $category->getUser()->getId()]);
     }
-
 }

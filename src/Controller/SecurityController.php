@@ -3,22 +3,19 @@
  * Created by PhpStorm.
  * User: sztig
  * Date: 17.09.19
- * Time: 18:46
+ * Time: 18:46.
  */
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Repository\StampRepository;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
@@ -37,8 +34,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, Security $security, TokenStorageInterface $tokenStorage, StampRepository $stampRepository)
     {
-
-        if($security->isGranted('ROLE_USER')){
+        if ($security->isGranted('ROLE_USER')) {
             $currentUser = $tokenStorage->getToken()
                 ->getUser();
             $usersToFollow = [];
@@ -53,20 +49,18 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('index',
                 [
                     'stamps' => $stamp,
-                    'usersToFollow' => $usersToFollow
+                    'usersToFollow' => $usersToFollow,
                 ]
             );
-      }
+        }
 
         return new Response($this->twig->render(
             'security/login.html.twig',
             [
                 'last_username' => $authenticationUtils->getLastUsername(),
-                'error' => $authenticationUtils->getLastAuthenticationError()
+                'error' => $authenticationUtils->getLastAuthenticationError(),
             ]
         ));
-
-
     }
 
     /**
@@ -74,7 +68,6 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-
     }
 
     /**

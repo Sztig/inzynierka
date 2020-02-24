@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a class="btn btn-outline-primary m-2" href="{{ app.request.headers.get('referer') }}">Go back</a>
+    {% if is_granted('edit', collection) %}
+        <a class="btn btn-outline-primary my-2 mr-2" href="{{ path('collection_edit', {'id': id}) }}">Edit collection</a>
+    {% endif %}
+    {% if is_granted('delete', collection) %}
+        <a class="btn btn-outline-primary"  href="{{ path('collection_delete', {'id': id}) }}">Delete collection</a>
+    {% endif %}
+    <h4 class="m-2 text-center">Collection: {{ collection.collection }}</h4>
+    {% for stamp in stamps %}
+        <div class="media text-muted pt-3">
+            {% set initials = stamp.user.fullName|split(' ') %}
+            <div class="stamp-raw mb-2">
+                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <span class="d-block">
+                <p>
+                    <strong>Name:</strong> {{ stamp.name }}
+                    <small>· {{ stamp.time|date("d/m/y h:i") }}</small></span>
+                </p>
+                <div class="row">
+                    <div class="col-sm-auto">
+                        <a href="{{ asset('uploads/' ~stamp.image) }}" target="_blank"><img width="160" src="{{ asset('uploads/' ~stamp.image) }}"></a>
+                    </div>
+                    <div class="col-sm">
+                        <strong>Description:</strong> {{ stamp.description }}<br>
+                        <strong>Color: </strong>{{ stamp.color }}<br>
+                        <strong>Serial Number: </strong> {{ stamp.serialnumber }}<br>
+                        <strong>Country: </strong> {{ stamp.country.country }}<br>
+                        <strong>Year: </strong> {{ stamp.year }}<br>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_USER') %}
+                    <a class="btn btn-outline-primary my-2" href="{{ path('stamp_show', {'id': stamp.id}) }}">Add comment</a>
+                {% endif %}
+                {% if is_granted('edit', stamp) %}
+                    <a class="btn btn-outline-primary float-right " href="{{ path('stamp_edit', {'id': stamp.id}) }}">Edit</a>
+                {% endif %}
+
+                {% if is_granted('delete', stamp) %}
+                    <a class="btn btn-outline-primary float-right mr-2"  href="{{ path('stamp_delete', {'id': stamp.id}) }}">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
